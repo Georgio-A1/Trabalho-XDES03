@@ -47,18 +47,23 @@ app.post('/review/:gamename', (req, res) => {
     }
 });
 
-//Initial route that will provide a list of featured games.
-app.get('/', async (req, res) => {
-    const highlights = JSON.stringify(await apiConsumers.igdbConsumerHighlights());
-    res.send(highlights);
-});
-
-//Route responsible for listing games that belong to the given genre.
-app.get('/genre/:genre', async (req, res) => {
-    const genre = req.params.genre;
-    const games = JSON.stringify(await apiConsumers.igdbConsumerGenre(genre));
-    res.send(games);
-});
+// Endpoint to get reviews for a specific game name
+app.get('/game/:gameName', (req, res) => {
+    const gameRName = req.params.gameName;
+    try {
+      const data = fs.readFileSync('./src/database/review.json', 'utf8');
+      const greviews = JSON.parse(data);
+      const gameReviews = greviews.filter((greview) => greview.gameName === gameRName);
+      console.log(gameReviews);
+      console.log(greviews);
+      console.log(greviews.gameName);
+      res.json(gameReviews);
+    } catch (error) {
+      console.error('Failed to read or parse review data', error);
+      res.status(500).json({ error: 'Failed to fetch reviews' });
+    }
+  });
+  
 
 //Route used when the called URL is not listed.
 app.get('*', (req, res) => {

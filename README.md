@@ -1,16 +1,23 @@
 # Trabalho-XDES03
 # Aplicativo Web de Avaliação de Jogos
 
-Este projeto é um aplicativo web para avaliações de jogos. Ele permite que os usuários busquem informações detalhadas sobre um jogo específico, leiam avaliações de outros usuários e também submetam suas próprias avaliações.
+Este projeto é um aplicativo web para avaliações de jogos. Ele permite que os usuários busquem informações detalhadas sobre um jogo específico, leiam avaliações de outros usuários e também submetam suas próprias avaliações. Seu funcionamento é fundamentado pelo  consumo da <ahref="https://api-docs.igdb.com/#getting-started">API IGDB</a>
 
 ## Tecnologias Utilizadas
 
-Este projeto foi construído com:
+<p>Abaixo segue as tecnologias utilizadas para o desenvolvimento da aplicação:</p>
 
+<h3>Front-end</h3>
 - <strong><a href="https://pt-br.reactjs.org/">React</a></strong>
 - <strong><a href="https://reactrouter.com/">React Router</a></strong>
 - <strong><a href="https://vitejs.dev/">Vite</a></strong>
 - CSS para estilização
+
+<h3>Back-end</h3>
+- <strong><a href="https://nodejs.org/pt-br/about">Node.JS</a></strong>
+- <strong><a href="https://expressjs.com/">ExpressJS</a></strong>
+- <strong><a href="https://www.npmjs.com/about">NPM</a></strong>
+- <strong><a href="https://www.npmjs.com/package/igdb-api-node">igdb-api-node</a></strong>
 
 ## Recursos
 
@@ -26,15 +33,19 @@ Este projeto foi construído com:
 
 O projeto usa CSS para estilização, fornecendo uma interface responsiva e limpa.
 
+### Pré-requisitos
+Para a execução dos comandos citados abaixo, é necessário possuir os ambientes React.JS e Node.JS configurados em sua máquina.
+
 ## Como Começar
 
 Para executar este projeto localmente:
 
 1. Clone este repositório: `git clone https://github.com/Georgio-A1/Trabalho-XDES03.git`
-2. Instale as dependências: `npm install`
+2. Instale as dependências do projeto executando no terminal dentro dos diretórios /front e /back o comando: `npm install`
 3. Se necessário, instale também o React Router e o Vite:<br>
    `npm install react-router-dom`<br>`npm install -g create-vite`
 5. Execute o aplicativo: `npm run dev`
+6. Execute o backend: `npx nodemon`
 
 
 ## Contribuindo

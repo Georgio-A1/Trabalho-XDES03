@@ -10,8 +10,12 @@ function GamePage() {
   const [gameData, setGameData] = useState(game || []);
   const [currentPage, setCurrentPage] = useState(1);
   const [reviewsPerPage] = useState(2);
-  const [totalReviews, setTotalReviews] = useState([]);
-
+  const [ greviews, setGreviews] = useState([]);
+  
+  useEffect(() => {
+  fetchReviews();
+  });
+ 
   useEffect(() => {
     if (!gameData) {
       fetchGameData(id);
@@ -22,18 +26,33 @@ function GamePage() {
     try {
       const response = await fetch(`http://localhost:3000/search/${id}`);
       const data = await response.json();
-      console.log(data)
+     // console.log(data)
       setGameData(data);
-      setTotalReviews(data.reviews);
     } catch (error) {
       console.error("Failed to fetch game data", error);
     }
   };
 
+  const fetchReviews = async () => {
+    try {
+      const response = await fetch(`http://localhost:3000/game/${(gameData.name)}`);
+      const dataG = await response.json();
+      console.log(dataG);
+      setGreviews(dataG);
+    } catch (error) {
+      console.error("Failed to fetch reviews", error);
+    }
+  };
+
+
   const displayReviews = () => {
     const start = (currentPage - 1) * reviewsPerPage;
     const end = start + reviewsPerPage;
-    const currentReviews = totalReviews.slice(start, end);
+    const currentReviews = greviews.slice(start, end);
+
+    if (currentReviews.length === 0) {
+      return <p>Sem reviews disponiveis para este jogo</p>;
+    }
 
     return (
       <div id="reviews">
@@ -43,7 +62,7 @@ function GamePage() {
               <span className="review-user">{review.user}</span>
               <span className="review-rating">{createStarRating(review.rating)}</span>
             </div>
-            <p className="review-content">{truncateContent(review.content, 40)}</p>
+            <p className="review-content">{review.content}</p>
             <div className="review-footer">
               <span className="review-date">{review.date}</span>
             </div>
@@ -54,7 +73,7 @@ function GamePage() {
   };
 
   const displayPagination = () => {
-    const totalPages = Math.ceil(totalReviews.length / reviewsPerPage);
+    const totalPages = Math.ceil(greviews.length / reviewsPerPage);
 
     return (
       <ul id="pagination">
@@ -105,7 +124,7 @@ function GamePage() {
       console.log("Genre:", gameData.genres);
       console.log("Platforms:", gameData.platforms);
       console.log("Game Summary:", gameData.summary);
-      console.log("Reviews:", gameData.reviews);
+      console.log("Reviews:", greviews);
     }
    }, [gameData]);
 
@@ -200,17 +219,13 @@ function GamePage() {
             </div>
           </div>
           <div id="game-reviews-section">
-            <h2>Avaliações de outros usuários</h2>
-            <div id="reviews">
-            {reviews && reviews.map((review) => (
-              <div key={review.id}>
-                <p>{review.name}</p>
-                <p>{review.score}</p>
-                <p>{review.description}</p>
-              </div>
-            ))}
-            </div>
+          <h2>Avaliações de outros usuários</h2>
+          <div id="reviews">
+          {displayReviews()}
+          {displayPagination()}
           </div>
+            </div>
+
         </section>
       </main>
     </>

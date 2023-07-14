@@ -1,2 +1,26 @@
 [
+  {
+    "id": 1,
+    "gameName": "Super Mario Bros.",
+    "email": "jose@gmail.com",
+    "name": "Fulano",
+    "rating": 8,
+    "description": "bfdsdb nfbnsdjfnb jsdfsd "
+  },
+  {
+    "id": 2,
+    "gameName": "Super Mario Bros.",
+    "email": "agnaldo@gmail.com",
+    "name": "Beltrano",
+    "rating": 10,
+    "description": "Speedruuuuun"
+  },
+  {
+    "id": 3,
+    "gameName": "Super Mario Bros.",
+    "email": "relp@gmail.com",
+    "name": "Ciclano",
+    "rating": 3,
+    "description": "Muito dificil"
+  }
 ]
