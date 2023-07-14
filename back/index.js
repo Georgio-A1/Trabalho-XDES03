@@ -64,6 +64,18 @@ app.get('/game/:gameName', (req, res) => {
     }
   });
   
+//Route responsible for listing games that belong to the given genre.
+app.get('/genre/:genre', async (req, res) => {
+    const genre = req.params.genre;
+    const games = JSON.stringify(await apiConsumers.igdbConsumerGenre(genre));
+    res.send(games);
+});
+
+//Initial route that will provide a list of featured games.
+app.get('/', async (req, res) => {
+    const highlights = JSON.stringify(await apiConsumers.igdbConsumerHighlights());
+    res.send(highlights);
+});
 
 //Route used when the called URL is not listed.
 app.get('*', (req, res) => {
