@@ -22,5 +22,21 @@
     "name": "Ciclano",
     "rating": 3,
     "description": "Muito dificil"
+  },
+  {
+    "id": 4,
+    "gameName": "Super Mario Bros.",
+    "email": "a@a.com",
+    "name": "Fulano",
+    "rating": 10,
+    "description": "sfsdf sadf sa fsd asdf"
+  },
+  {
+    "id": 5,
+    "gameName": "Super Mario Bros.",
+    "email": "xuxa@gmail.com",
+    "name": "Farofa",
+    "rating": 8,
+    "description": "Never gonna give you up"
   }
 ]
