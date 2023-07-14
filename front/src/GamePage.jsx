@@ -130,7 +130,11 @@ function GamePage() {
 
   const handleSubmitReview = async (event) => {
     event.preventDefault();
-    const { email, name, score, review } = event.target.elements;
+    const email = document.getElementById('email').value;
+    const name = document.getElementById('name').value;
+    const score = document.getElementById('score').value;
+    const review = document.getElementById('review').value;
+    
     console.log('Submitted Email:', email.value);
     console.log('Submitted Name:', name.value);
     console.log('Submitted Score:', score.value);
@@ -206,18 +210,18 @@ function GamePage() {
                     onChange={(e) => setRatingValue(parseInt(e.target.value))}
                     required
                    />
-                 <div id="stars-display">{createStarRating()}</div>
-
-                <h2 id="rating-desc">DESCRIÇÃO</h2>
-                <textarea id="review" name="review" rows="10" cols="50" required></textarea>
-                <button type="submit" id="submit-review" className="submit-button">
-                  Avaliar
-                </button>
-              </form>
-
+                <div id="stars-display">{createStarRating()}</div>               
+                </form>
+              </div>
+              <div className="rating-form-block">
+                  <h2 id="rating-desc">DESCRIÇÃO</h2>
+                  <textarea id="review" name="review" rows="10" cols="50" required></textarea>
+                  <button type="submit" id="submit-review" className="submit-button" form="rating-form">
+                    Avaliar
+                  </button>
               </div>
             </div>
-          </div>
+        </div>
           <div id="game-reviews-section">
           <h2>Avaliações de outros usuários</h2>
           <div id="reviews">
