@@ -4,14 +4,13 @@ import GameContext from './GameContext';
 import { useContext } from 'react';
 
 function GamePage() {
+  const [ratingValue, setRatingValue] = useState(0);
   const { game } = useContext(GameContext);
   const { id } = useParams();
   const [gameData, setGameData] = useState(game || []);
   const [currentPage, setCurrentPage] = useState(1);
   const [reviewsPerPage] = useState(2);
   const [totalReviews, setTotalReviews] = useState([]);
-
-   console.log(gameData);
 
   useEffect(() => {
     if (!gameData) {
@@ -75,24 +74,28 @@ function GamePage() {
     );
   };
 
-  const createStarRating = (rating) => {
-    const fullStars = Math.floor(rating / 2);
-    const halfStars = rating % 2;
+  const createStarRating = () => {
+    const cappedRating = Math.min(Math.max(ratingValue || 0, 0), 10);
+    const fullStars = Math.floor(cappedRating / 2);
+    const halfStars = cappedRating % 2;
     const emptyStars = 5 - fullStars - halfStars;
-
+  
     const starHTML = [];
+  
     for (let i = 0; i < fullStars; i++) {
-      starHTML.push(<img key={i} src="./starf.png" alt="Full star" />);
+      starHTML.push(<img key={`star_${i}`} src="/starf.png" alt="Full star" />);
     }
     for (let i = 0; i < halfStars; i++) {
-      starHTML.push(<img key={i} src="./star_half.png" alt="Half star" />);
+      starHTML.push(<img key={`star_${i + fullStars}`} src="/star_half.png" alt="Half star" />);
     }
     for (let i = 0; i < emptyStars; i++) {
-      starHTML.push(<img key={i} src="./star_empty.png" alt="Empty star" />);
+      starHTML.push(<img key={`star_${i + fullStars + halfStars}`} src="/star_empty.png" alt="Empty star" />);
     }
-
+  
     return starHTML;
   };
+  
+  
 
   useEffect(() => {
     if (gameData) {
@@ -181,9 +184,10 @@ function GamePage() {
                     name="score"
                     min="1"
                     max="10"
+                    onChange={(e) => setRatingValue(parseInt(e.target.value))}
                     required
                    />
-                 <div id="stars-display"></div>
+                 <div id="stars-display">{createStarRating()}</div>
 
                 <h2 id="rating-desc">DESCRIÇÃO</h2>
                 <textarea id="review" name="review" rows="10" cols="50" required></textarea>
