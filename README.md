@@ -9,6 +9,7 @@ Este projeto foi construído com:
 
 - <strong><a href="https://pt-br.reactjs.org/">React</a></strong>
 - <strong><a href="https://reactrouter.com/">React Router</a></strong>
+- <strong><a href="https://vitejs.dev/">Vite</a></strong>
 - CSS para estilização
 
 ## Recursos
