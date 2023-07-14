@@ -1,22 +1,71 @@
 const igdb = require('igdb-api-node').default; //A Node.js wrapper for the IGDB API.
 
 //Access credentials used to consume the IGDB APIs.
-const client = 'aybfike88n8yqkudlkht30y2tjn8ks'; 
+const client = 'aybfike88n8yqkudlkht30y2tjn8ks';
 const token = 'rbrsebp3tp41al266j0abkezp6194y';
 
 //Function used to fetch the actual values of the data received by the IGBD API.
 async function igdbHelper(data) {
 
-    for (let result = 0; result < data.length; result++) {
+    if (Array.isArray(data)) { //Check if there is more than one game in data to be able to walk through it.
+        for (let result = 0; result < data.length; result++) {
+            if (data[result].cover) { //Check if there is a cover on game data.
 
-        data[result].cover = await igdbCover(data[result].cover);
+                data[result].cover = await igdbCover(data[result].cover);
+            }
+            if (data[result].platforms) { //Check if there is a platform on game data.
+                if (Array.isArray(data[result].platforms)) { //Check if there is more than one plataform in game to be able to walk through it.
+                    for (let item = 0; item < data[result].platforms.length; item++) {
 
-        for (let item = 0; item < data[result].platforms.length; item++) {
-            data[result].platforms[item] = await igdbPlataforms(data[result].platforms[item]);
+                        data[result].platforms[item] = await igdbPlataforms(data[result].platforms[item]);
+                    }
+                } else {
+
+                    data[result].platforms = await igdbPlataforms(data[result].platforms);
+                }
+            }
+            if (data[result].genres) { //Check if there is a genre on game data.
+                if (Array.isArray(data[result].genres)) { //Check if there is more than one genre in game to be able to walk through it.
+                    for (let item = 0; item < data[result].genres.length; item++) {
+
+                        data[result].genres[item] = await igdbGenres(data[result].genres[item]);
+                    }
+                } else {
+
+                    data[result].genres = await igdbGenres(data[result].genres);
+                }
+            }
         }
 
-        for (let item = 0; item < data[result].genres.length; item++) {
-            data[result].genres[item] = await igdbGenres(data[result].genres[item]);
+    } else {
+        if (data.cover) { //Check if there is a cover on game data.
+
+            data.cover = await igdbCover(data.cover);
+        }
+
+        if (data.platforms) { //Check if there is a plataforms on game data.
+            if (Array.isArray(data.platforms)) { //Check if there is more than one plataform in game to be able to walk through it.
+                for (let item = 0; item < data.platforms.length; item++) {
+
+                    data.platforms[item] = await igdbPlataforms(data.platforms[item]);
+                }
+
+            } else {
+
+                data.platforms = await igdbPlataforms(data.platforms);
+            }
+        }
+
+        if (data.genres) { //Check if there is a genre on game data.
+            if (Array.isArray(data.genres)) { //Check if there is more than one genre in game to be able to walk through it.
+                for (let item = 0; item < data.genres.length; item++) {
+
+                    data.genres[item] = await igdbGenres(data.genres[item]);
+                }
+            } else {
+
+                data.genres = await igdbGenres(data.genres);
+            }
         }
     }
     return data;
@@ -108,12 +157,12 @@ async function igdbConsumerGenre(genre) {
     try {
         const response = await igdb(client, token)
             .fields(['cover', 'name', 'total_rating', 'genres', 'platforms', 'first_release_date', 'summary'])
-            .limit(500)
+            .limit(20)
             .sort('name')
             .where(`genres = ${genre}`)
             .request('/games');
 
-        //response.data = await igdbHelper(response.data);
+        response.data = await igdbHelper(response.data);
 
         return response.data;
     } catch (err) {
