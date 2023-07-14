@@ -31,7 +31,7 @@ app.post('/review/:gamename', (req, res) => {
         console.log('Existing Reviews:', reviews);
 
         for (let savedReviews of reviews) {
-            if (savedReviews.email === email) {
+            if ((savedReviews.email === email) && (savedReviews.gameName === gameName)) {
                 return res.status(409).send(`Uma avaliação já foi escrita com o email ${email}.`); //Checking if the email has already been used in other game review.
             }
         }
